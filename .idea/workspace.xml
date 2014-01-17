@@ -63,19 +63,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="97" selection-end="97" vertical-scroll-proportion="0.36743516" vertical-offset="0" max-vertical-offset="694">
+            <state line="15" column="0" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="3" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
+            <state line="30" column="3" selection-start="405" selection-end="405" vertical-scroll-proportion="0.7348703" vertical-offset="0" max-vertical-offset="1224">
               <folding />
             </state>
           </provider>
@@ -284,13 +284,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="3" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tester/tester.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="0" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
@@ -309,7 +302,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="97" selection-end="97" vertical-scroll-proportion="0.36743516" vertical-offset="0" max-vertical-offset="694">
+        <state line="15" column="0" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="3" selection-start="405" selection-end="405" vertical-scroll-proportion="0.7348703" vertical-offset="0" max-vertical-offset="1224">
           <folding />
         </state>
       </provider>

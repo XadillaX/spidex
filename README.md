@@ -28,7 +28,7 @@ spidex.post(url, callback, data, [header], [charset]);
 
 There's a helper function:
 
-``javascript
+```javascript
 spidex.parseCookie(responseHeaders);
 ```
 
