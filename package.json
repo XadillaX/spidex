@@ -1,0 +1,26 @@
+{
+  "name": "spidex",
+  "version": "1.0.0",
+  "description": "The refactoring of `nodegrassex`. A web crawler for node.js.",
+  "main": "index.js",
+  "dependencies": {
+    "iconv-lite": "~0.2.11",
+    "sugar": "~1.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "cd tester && node tester.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/XadillaX/spidex.git"
+  },
+  "keywords": [
+    "clawler"
+  ],
+  "author": "XadillaX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XadillaX/spidex/issues"
+  }
+}
