@@ -1,6 +1,6 @@
 {
   "name": "spidex",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "The refactoring of `nodegrassex`. A web crawler for node.js.",
   "main": "index.js",
   "dependencies": {
