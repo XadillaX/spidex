@@ -15,6 +15,6 @@ spidex.post("http://cnodejs.org/signin", function(html, status, respHeader) {
     name    : "yourusername",
     pass    : "yourpassword",
     csrf    : "undefined"
-}).on("err", function(err) {
-    console.log(err);
+}, {}, "utf8", { requestTimeout: 10 }).on("error", function(err) {
+    if(err) console.log(err.message);
 });
