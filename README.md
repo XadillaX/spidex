@@ -22,9 +22,15 @@ var spidex = require("spidex");
 And the functions are:
 
 ```javascript
-spidex.get(url, callback, [header], [charset]);
-spidex.post(url, callback, data, [header], [charset]);
+spidex.get(url, callback, [header], [charset], [opts]);
+spidex.post(url, callback, data, [header], [charset], [opts]);
 ```
+
+`opts` can be an `Object` that has options follow:
+
++ `timeout`: set the totally timeout millionsecond.
++ `responseTimeout`: set the response timeout millionsecond.
++ `requestTimeout`: set the request timeout millionsecond.
 
 There's a helper function:
 
