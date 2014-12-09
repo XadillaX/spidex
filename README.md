@@ -32,6 +32,8 @@ spidex.post(url, callback, data, [header], [charset], [opts]);
 + `responseTimeout`: set the response timeout millionsecond.
 + `requestTimeout`: set the request timeout millionsecond.
 
+> If you want to use `opts`, you should fill all the parameters.
+
 There's a helper function:
 
 ```javascript
