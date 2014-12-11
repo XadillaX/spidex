@@ -6,7 +6,7 @@ The refactoring of `nodegrassex`. A web crawler for node.js.
 Install
 -------
 
-```shell
+```sh
 $ npm install spidex
 ```
 
