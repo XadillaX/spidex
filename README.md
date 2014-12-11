@@ -19,20 +19,25 @@ You just need to get the handler:
 var spidex = require("spidex");
 ```
 
+> After v2.0.0, spidex uses new APIs.
+
 And the functions are:
 
 ```javascript
-spidex.get(url, callback, [header], [charset], [opts]);
-spidex.post(url, callback, data, [header], [charset], [opts]);
+spidex.get(url, [opts], [callback]);
+spidex.post(url, [opts], [callback]);
+spidex.put(url, [opts], [callback]);
+spidex.delete(url, [opts], [callback]);
 ```
 
 `opts` can be an `Object` that has options follow:
 
++ `data`: the body data. it may be a querystring or a JSON object.
++ `header`: customized request header.
++ `charset`: "utf8", "gbk", "big5" or other encodings `iconv-lite` supported. what's more, it supports "binary" now.
 + `timeout`: set the totally timeout millionsecond.
 + `responseTimeout`: set the response timeout millionsecond.
 + `requestTimeout`: set the request timeout millionsecond.
-
-> If you want to use `opts`, you should fill all the parameters.
 
 There's a helper function:
 
@@ -47,7 +52,7 @@ spidex.setDefaultUserAgent(userAgent);
 spidex.getDefaultUserAgent();
 ```
 
-You can go through `tester/tester.js` for further examples.
+You can go through `test/spidex.js` for further examples.
 
 License
 -------
