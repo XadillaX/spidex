@@ -8,7 +8,11 @@
     "sugar": "~1.4.1",
     "urlencode": "~0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "~2.0.1",
+    "should": "~4.3.1",
+    "image-type": "~1.1.0"
+  },
   "scripts": {
     "test": "cd tester && node tester.js"
   },
