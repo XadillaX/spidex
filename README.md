@@ -1,7 +1,7 @@
 Spidex
 ======
 
-The refactoring of `nodegrassex`. A web crawler for node.js.
+A web crawler for node.js.
 
 Install
 -------
