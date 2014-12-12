@@ -1,6 +1,6 @@
 /**
  * [ ❤ Spidex ❤ ]
- * Created by XadillaX on 14-1-17.
+ * Created by XadillaX on 14-1-17 with love
  */
 require("sugar/release/sugar-full.development");
 var Spidex = require("./lib/spidex");
