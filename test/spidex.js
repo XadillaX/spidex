@@ -118,7 +118,7 @@ describe("Spidex", function() {
             }, function() {
                 // empty
             }).on("error", function(err) {
-                err.message.should.equal("Spidex timeout in 200ms.");
+                err.message.should.equal("Spidex timeout in 20ms.");
                 done();
             });
         });
@@ -126,7 +126,7 @@ describe("Spidex", function() {
         it("shouldn't call timeout.", function(done) {
             var errorOccurred = 0;
             this.timeout(5000);
-            spidex.get("http://zhaofuli.org/", {
+            spidex.get("http://zhaofulifxxkfxxkfxxkfxxk.org/", {
                 timeout: 1000
             }, function() {
                 // empty
