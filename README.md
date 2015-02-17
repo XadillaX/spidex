@@ -1,7 +1,11 @@
 Spidex
 ======
 
+[![Spidex](http://img.shields.io/npm/v/spidex.svg)](https://www.npmjs.org/package/spidex) [![Spidex](http://img.shields.io/npm/dm/spidex.svg)](https://www.npmjs.org/package/spidex) [![Build Status](https://travis-ci.org/XadillaX/spidex.svg?branch=v2)](https://travis-ci.org/XadillaX/spidex) [![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/v2.svg)](https://coveralls.io/r/XadillaX/spidex?branch=v2)
+
 A web crawler for node.js.
+
+[![Spidex](https://nodei.co/npm/spidex.png?downloads=true&downloadRank=true)](https://www.npmjs.org/package/spidex) [![Spidex](https://nodei.co/npm-dl/spidex.png?months=6&height=3)](https://nodei.co/npm-dl/spidex.png?months=6&height=3)
 
 Install
 -------
