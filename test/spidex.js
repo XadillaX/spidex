@@ -101,7 +101,7 @@ describe("Spidex", function() {
                 charset: "binary",
                 responseTimeout: 10,
                 timeout: 2000
-            }, function(buff) {
+            }, function() {
                 // empty
             }).on("error", function(err) {
                 err.message.should.equal("Spidex response timeout in 10ms.");
@@ -111,16 +111,31 @@ describe("Spidex", function() {
 
         it("should timeout.", function(done) {
             spidex.get("https://raw.githubusercontent.com/XadillaX/hexo-site/master/public/images/background/1.jpeg", {
-                charset: "binar",
+                charset: "binary",
                 responseTimeout: 1000,
                 requestTimeout: 1000,
                 timeout: 200
-            }, function(buff) {
+            }, function() {
                 // empty
             }).on("error", function(err) {
                 err.message.should.equal("Spidex timeout in 200ms.");
                 done();
             });
+        });
+
+        it("shouldn't call timeout.", function(done) {
+            this.timeout(5000);
+            spidex.get("http://zhaofuli.org/", {
+                timeout: 1000
+            }, function() {
+                // empty
+            }).on("error", function(err) {
+                err.message.should.not.equal("Spidex timeout in 1000ms.");
+            });
+
+            setTimeout(function() {
+                done();
+            }, 3000);
         });
     });
 });
