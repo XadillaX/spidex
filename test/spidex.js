@@ -114,7 +114,7 @@ describe("Spidex", function() {
                 charset: "binary",
                 responseTimeout: 1000,
                 requestTimeout: 1000,
-                timeout: 200
+                timeout: 20
             }, function() {
                 // empty
             }).on("error", function(err) {
@@ -124,6 +124,7 @@ describe("Spidex", function() {
         });
 
         it("shouldn't call timeout.", function(done) {
+            var errorOccurred = 0;
             this.timeout(5000);
             spidex.get("http://zhaofuli.org/", {
                 timeout: 1000
@@ -131,9 +132,11 @@ describe("Spidex", function() {
                 // empty
             }).on("error", function(err) {
                 err.message.should.not.equal("Spidex timeout in 1000ms.");
+                errorOccurred = 1;
             });
 
             setTimeout(function() {
+                errorOccurred.should.not.equal(0);
                 done();
             }, 3000);
         });
