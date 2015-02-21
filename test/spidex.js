@@ -143,9 +143,20 @@ describe("Spidex", function() {
     });
 
     describe("errors", function() {
-        it("should occur an invaid protocol error", function(done) {
-            spidex.get("$$$$$", { timeout: 1 }, function() {}).on("error", function(e) {
-                if(e.message.indexOf("protocol") >= 0) done();
+        it("should occur an invaid protocol error.", function(done) {
+            var emitter = spidex.get("$$$$$", {
+                timeout: 1
+            }, function(html, status) {
+                // empty
+                console.log(html);
+            });
+
+            console.log(emitter);
+            
+            emitter.on("error", function(err) {
+                console.log("==========");
+                err.message.indexOf("protocol").should.not.equal(-1);
+                done();
             });
         });
     });
