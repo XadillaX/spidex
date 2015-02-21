@@ -144,17 +144,11 @@ describe("Spidex", function() {
 
     describe("errors", function() {
         it("should occur an invaid protocol error.", function(done) {
-            var emitter = spidex.get("$$$$$", {
+            spidex.get("$$$$$", {
                 timeout: 1
-            }, function(html, status) {
+            }, function() {
                 // empty
-                console.log(html);
-            });
-
-            console.log(emitter);
-            
-            emitter.on("error", function(err) {
-                console.log("==========");
+            }).on("error", function(err) {
                 err.message.indexOf("protocol").should.not.equal(-1);
                 done();
             });
