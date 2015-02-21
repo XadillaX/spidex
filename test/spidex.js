@@ -141,5 +141,13 @@ describe("Spidex", function() {
             }, 3000);
         });
     });
+
+    describe("errors", function() {
+        it("should occur an invaid protocol error", function(done) {
+            spidex.get("$$$$$", { timeout: 1 }, function() {}).on("error", function(e) {
+                if(e.message.indexOf("protocol") >= 0) done();
+            });
+        });
+    });
 });
 
