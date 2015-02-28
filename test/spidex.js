@@ -43,7 +43,7 @@ describe("Spidex", function() {
         this.timeout(0);
 
         it("should contain \"宁波工程学院\"", function(done) {
-            spidex.get("http://nbut.edu.cn/", {
+            spidex.get("http://dx.nbut.edu.cn/", {
                 charset: "gbk"
             }, function(html) {
                 html.indexOf("宁波工程学院").should.not.equal(-1);
