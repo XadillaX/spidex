@@ -154,6 +154,18 @@ describe("Spidex", function() {
                 done();
             }).on("error", function(err) {
                 err.should.be.empty;
+            });
+        });
+    });
+
+    describe("errors", function() {
+        it("should occur an invaid protocol error.", function(done) {
+            spidex.get("$$$$$", {
+                timeout: 1
+            }, function() {
+                // empty
+            }).on("error", function(err) {
+                err.message.indexOf("protocol").should.not.equal(-1);
                 done();
             });
         });
