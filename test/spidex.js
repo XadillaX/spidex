@@ -141,5 +141,22 @@ describe("Spidex", function() {
             }, 3000);
         });
     });
+
+    describe("post", function() {
+        it("should return whole data when POST utf8", function(done) {
+            spidex.post("http://httpbin.org/post", {
+                timeout: 60000,
+                data: "a=你好",
+                charset: "utf8"
+            }, function(html) {
+                var json = JSON.parse(html);
+                json.form.a.should.equal("你好");
+                done();
+            }).on("error", function(err) {
+                err.should.be.empty;
+                done();
+            });
+        });
+    });
 });
 
