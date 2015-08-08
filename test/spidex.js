@@ -84,6 +84,8 @@ describe("Spidex", function() {
     });
 
     describe("timeout", function() {
+        this.timeout(0);
+
         it("should request timeout.", function(done) {
             spidex.get("http://www.pccu.edu.tw/", {
                 requestTimeout: 10,
@@ -171,4 +173,3 @@ describe("Spidex", function() {
         });
     });
 });
-
