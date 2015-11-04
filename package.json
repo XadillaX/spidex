@@ -4,7 +4,9 @@
   "description": "A web crawler for node.js.",
   "main": "index.js",
   "dependencies": {
+    "hessian.js": "^2.1.4",
     "iconv-lite": "~0.2.11",
+    "lodash": "^3.10.1",
     "urlencode": "~0.2.0"
   },
   "devDependencies": {
