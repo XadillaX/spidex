@@ -1,3 +1,5 @@
+"use strict";
+
 var spidex = require("../");
 var imageType = require("image-type");
 require("should");

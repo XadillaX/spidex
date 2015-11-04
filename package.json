@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
+    "es6-map-shim": "^0.2.1",
     "image-type": "~1.1.0",
     "istanbul": "^0.3.5",
     "mocha": "^2.1.0",
