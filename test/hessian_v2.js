@@ -138,4 +138,17 @@ describe("Hessian 2.0 test", function() {
 
         it("should send object 3", TEST_ARGS.bind(this, "argObject_3", [ obj3 ]));
     });
+
+    describe("date", function() {
+        var dates = [
+            new Date(0),
+            new Date(Date.UTC(98, 4, 8, 9, 51, 31)),
+            new Date(Date.UTC(98, 4, 8, 9, 51))
+        ];
+
+        for(var i = 0; i < dates.length; ++i) {
+            it("should send date 0", TEST_ARGS.bind(this, "argDate_" + i, [ dates[i] ]));
+            it("should reply date 0", TEST_REPLY.bind(this, "replyDate_" + i, dates[i]));
+        }
+    });
 });
