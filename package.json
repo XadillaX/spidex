@@ -14,6 +14,7 @@
     "es6-map-shim": "^0.2.1",
     "image-type": "~1.1.0",
     "istanbul": "^0.3.5",
+    "long": "^3.0.1",
     "mocha": "^2.1.0",
     "should": "^5.0.0"
   },
