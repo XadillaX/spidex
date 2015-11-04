@@ -27,6 +27,7 @@ describe("Hessian 2.0 test", function() {
     function TEST_ARGS(method, args, callback) {
         spidex.hessianV2(BASE_URL, method, args, function(err, result) {
             should.ifError(err);
+            if(result !== true) console.log(result);
             should(result).be.eql(true);
             callback();
         });
@@ -48,6 +49,27 @@ describe("Hessian 2.0 test", function() {
         it("should send null", TEST_ARGS.bind(this, "argNull", [null]));
         it("should send true", TEST_ARGS.bind(this, "argTrue", [true]));
         it("should send false", TEST_ARGS.bind(this, "argFalse", [false]));
+    });
+
+    describe("list", function() {
+        [ 0, 1, 7, 8 ].forEach(function(len) {
+            var list = [];
+            for(var i = 0; i < len; i++) {
+                list.push((i + 1).toString());
+            }
+
+            (function(i) {
+                it("should send untyped list " + i, TEST_ARGS.bind(this, "argUntypedFixedList_" + i, [ list ]));
+
+                var _list = {
+                    $class: "[string",
+                    $: list.map(function(s) {
+                        return { $class: "string", $: s };
+                    })
+                };
+                it("should send typed list " + i, TEST_ARGS.bind(this, "argTypedFixedList_" + i, [ _list ]));
+            })(i);
+        });
     });
 
     describe("map", function() {
@@ -83,5 +105,37 @@ describe("Hessian 2.0 test", function() {
                 it("should send untyped map " + i, TEST_ARGS.bind(this, "argUntypedMap_" + i, [ typedMaps[i] ]));
             })(i);
         });
+    });
+
+    describe("object", function() {
+        it("should send object 0", TEST_ARGS.bind(this, "argObject_0", [
+            { $class: "com.caucho.hessian.test.A0", $: {} }
+        ]));
+
+        it("should reply object 0", TEST_REPLY.bind(this, "replyObject_0", {}));
+
+        var testClass = "com.caucho.hessian.test.TestObject";
+        it("should send object 1", TEST_ARGS.bind(this, "argObject_1", [
+            { $class: testClass, $: { _value: 0 } }
+        ]));
+
+        it("should reply object 1", TEST_REPLY.bind(this, "replyObject_1", { _value: 0 }));
+
+        it("should send object 2", TEST_ARGS.bind(this, "argObject_2", [
+            [{ $class: testClass, $: { _value: 0 } }, { $class: testClass, $: { _value: 1 } }]
+        ]));
+
+        it("should send object 2a", TEST_ARGS.bind(this, "argObject_2a", [
+            [{ $class: testClass, $: { _value: 0 } }, { $class: testClass, $: { _value: 0 } }]
+        ]));
+
+        it("should send object 2b", TEST_ARGS.bind(this, "argObject_2b", [
+            [{ $class: testClass, $: { _value: 0 } }, { $class: testClass, $: { _value: 0 } }]
+        ]));
+
+        var obj3 = { $class: "com.caucho.hessian.test.TestCons", $: { _first: "a", _rest: null } };
+        obj3.$._rest = obj3;
+
+        it("should send object 3", TEST_ARGS.bind(this, "argObject_3", [ obj3 ]));
     });
 });
