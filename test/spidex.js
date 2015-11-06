@@ -6,7 +6,11 @@ require("should");
 
 describe("Spidex", function() {
     before(function(done) {
-        spidex.setDefaultUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+        spidex.setDefaultUserAgent(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X " + 
+                "10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) " + 
+                "Chrome/39.0.2171.71 Safari/537.36");
+
         done();
     });
 
@@ -32,7 +36,9 @@ describe("Spidex", function() {
                 }
             }, function(html, status) {
                 status.should.equal(200);
-                html.indexOf("No such user or wrong password.").should.not.equal(-1);
+                html.indexOf("No such user or wrong password.")
+                    .should.not.equal(-1);
+
                 done();
             }).on("error", function(err) {
                 err.should.be.empty;
@@ -73,15 +79,20 @@ describe("Spidex", function() {
         this.timeout(0);
 
         it("should be a JPEG file", function(done) {
-            spidex.get("https://raw.githubusercontent.com/XadillaX/hexo-site/master/public/images/background/1.jpeg", {
-                charset: "binary"
-            }, function(buff) {
-                imageType(buff).should.equal("jpg");
-                done();
-            }).on("error", function(err) {
-                err.should.be.empty;
-                done();
-            });
+            spidex.get(
+                "https://raw.githubusercontent.com/XadillaX/hexo-site/" +
+                "master/public/images/background/1.jpeg", {
+                    charset: "binary"
+                }, function(buff) {
+                    imageType(buff).should.eql({
+                        ext: "jpg",
+                        mime: "image/jpeg"
+                    });
+                    done();
+                }).on("error", function(err) {
+                    err.should.be.empty;
+                    done();
+                });
         });
     });
 
@@ -101,30 +112,34 @@ describe("Spidex", function() {
         });
 
         it("should response timeout.", function(done) {
-            spidex.get("https://raw.githubusercontent.com/XadillaX/hexo-site/master/public/images/background/1.jpeg", {
-                charset: "binary",
-                responseTimeout: 10,
-                timeout: 2000
-            }, function() {
-                // empty
-            }).on("error", function(err) {
-                err.message.should.equal("Spidex response timeout in 10ms.");
-                done();
-            });
+            spidex.get(
+                "https://raw.githubusercontent.com/XadillaX/hexo-site/" +
+                "master/public/images/background/1.jpeg", {
+                    charset: "binary",
+                    responseTimeout: 10,
+                    timeout: 2000
+                }, function() {
+                    // empty
+                }).on("error", function(err) {
+                    err.message.should.equal("Spidex response timeout in 10ms.");
+                    done();
+                });
         });
 
         it("should timeout.", function(done) {
-            spidex.get("https://raw.githubusercontent.com/XadillaX/hexo-site/master/public/images/background/1.jpeg", {
-                charset: "binary",
-                responseTimeout: 1000,
-                requestTimeout: 1000,
-                timeout: 20
-            }, function() {
-                // empty
-            }).on("error", function(err) {
-                err.message.should.equal("Spidex timeout in 20ms.");
-                done();
-            });
+            spidex.get(
+                "https://raw.githubusercontent.com/XadillaX/hexo-site/" +
+                "master/public/images/background/1.jpeg", {
+                    charset: "binary",
+                    responseTimeout: 1000,
+                    requestTimeout: 1000,
+                    timeout: 20
+                }, function() {
+                    // empty
+                }).on("error", function(err) {
+                    err.message.should.equal("Spidex timeout in 20ms.");
+                    done();
+                });
         });
 
         it("shouldn't call timeout.", function(done) {
