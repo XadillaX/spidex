@@ -25,10 +25,10 @@ var spidex = require("spidex");
 And the functions are:
 
 ```javascript
-spidex.get(url, [opts], [callback]);
-spidex.post(url, [opts], [callback]);
-spidex.put(url, [opts], [callback]);
-spidex.delete(url, [opts], [callback]);
+spidex.get(url, [opts], [callback]).on("error", errorCallback);
+spidex.post(url, [opts], [callback]).on("error", errorCallback);
+spidex.put(url, [opts], [callback]).on("error", errorCallback);
+spidex.delete(url, [opts], [callback]).on("error", errorCallback);
 ```
 
 `opts` can be an `Object` that has options follow:
