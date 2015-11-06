@@ -40,6 +40,23 @@ spidex.delete(url, [opts], [callback]).on("error", errorCallback);
 + `responseTimeout`: set the response timeout millionsecond.
 + `requestTimeout`: set the request timeout millionsecond.
 
+For an example:
+
+```javascript
+spidex.post("http://foo", {
+    data: { user: "foo", password: "bar" },
+    header: { "content-type": "application/x-www-form-urlencoded" },
+    charset: "utf8",
+    timeout: 5000,
+    responseTimeout: 3000,
+    requestTimeout: 3000
+}, function(content, statusCode, responseHeaders) {
+    console.log(content, statusCode, responseHeaders);
+}).on("error", function(err) {
+    console.log(err);
+});
+```
+
 There's a helper function:
 
 ```javascript
