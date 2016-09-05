@@ -62,11 +62,11 @@ describe("Spidex", function() {
             });
         });
 
-        it("should contain \"中國文化大學\"", function(done) {
-            spidex.get("http://www.pccu.edu.tw/", {
+        it("should contain \"玄奘大學\"", function(done) {
+            spidex.get("http://www.hcu.edu.tw/front/bin/home.phtml", {
                 charset: "big5"
             }, function(html) {
-                html.indexOf("中國文化大學").should.not.equal(-1);
+                html.indexOf("玄奘大學").should.not.equal(-1);
                 done();
             }).on("error", function(err) {
                 err.should.be.empty;
