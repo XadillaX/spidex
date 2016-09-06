@@ -4,19 +4,19 @@
   "description": "A web crawler for node.js, even support hessian request.",
   "main": "index.js",
   "dependencies": {
-    "hessian.js": "^2.1.4",
+    "hessian.js": "^2.2.1",
     "iconv-lite": "^0.4.13",
-    "lodash": "^3.10.1",
+    "lodash": "^4.15.0",
     "urlencode": "^1.1.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.4",
+    "coveralls": "^2.11.12",
     "es6-map-shim": "^0.2.1",
     "image-type": "^2.1.0",
-    "istanbul": "^0.4.0",
-    "long": "^3.0.1",
-    "mocha": "^2.3.3",
-    "should": "^7.1.1"
+    "istanbul": "^1.1.0-alpha.1",
+    "long": "^3.2.0",
+    "mocha": "^3.0.2",
+    "should": "^11.1.0"
   },
   "scripts": {
     "test": "make test"
