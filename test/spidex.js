@@ -18,7 +18,7 @@ describe("Spidex", function() {
         this.timeout(0);
 
         it("should contain a certain sentence.", function(done) {
-            spidex.get("https://www.upyun.com/index.html", function(html) {
+            spidex.get("https://www.upyun.com/", function(html) {
                 html.indexOf("又拍云").should.not.equal(-1);
                 done();
             }).on("error", function(err) {
@@ -63,7 +63,7 @@ describe("Spidex", function() {
         });
 
         it("should contain \"玄奘大學\"", function(done) {
-            spidex.get("http://www.hcu.edu.tw/front/bin/home.phtml", {
+            spidex.get("http://a001.hcu.edu.tw/front/bin/home.phtml", {
                 charset: "big5"
             }, function(html) {
                 html.indexOf("玄奘大學").should.not.equal(-1);
@@ -81,7 +81,7 @@ describe("Spidex", function() {
         it("should be a JPEG file", function(done) {
             spidex.get(
                 "https://raw.githubusercontent.com/XadillaX/hexo-site/" +
-                "master/public/images/background/1.jpeg", {
+                "ad93217883a6e6ff1dd7136c6f3b732290e16d6d/public/images/background/1.jpeg", {
                     charset: "binary"
                 }, function(buff) {
                     imageType(buff).should.eql({
@@ -114,7 +114,7 @@ describe("Spidex", function() {
         it("should response timeout.", function(done) {
             spidex.get(
                 "https://raw.githubusercontent.com/XadillaX/hexo-site/" +
-                "master/public/images/background/1.jpeg", {
+                "ad93217883a6e6ff1dd7136c6f3b732290e16d6d/public/images/background/1.jpeg", {
                     charset: "binary",
                     responseTimeout: 10,
                     timeout: 2000

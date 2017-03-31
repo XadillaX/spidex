@@ -14,6 +14,7 @@ var spidex = require("../");
 
 describe("Hessian 2.0 test", function() {
     var BASE_URL = "http://hessian.caucho.com/test/test2";
+    this.timeout(0);
 
     function TEST_REPLY(method, reply, callback) {
         spidex.hessianV2(BASE_URL, method, [], function(err, result) {
