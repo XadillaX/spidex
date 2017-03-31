@@ -1,12 +1,16 @@
 {
   "name": "spidex",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A web crawler for node.js, even support hessian request.",
   "main": "index.js",
   "dependencies": {
+    "eventemitter2": "^4.1.0",
     "hessian.js": "^2.2.1",
+    "https-browserify": "^0.0.1",
     "iconv-lite": "^0.4.13",
     "lodash": "^4.15.0",
+    "stream-http": "^2.6.3",
+    "url": "^0.11.0",
     "urlencode": "^1.1.0"
   },
   "devDependencies": {

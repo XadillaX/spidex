@@ -2,7 +2,7 @@
 
 [![Spidex](http://img.shields.io/npm/v/spidex.svg)](https://www.npmjs.org/package/spidex) [![Spidex](http://img.shields.io/npm/dm/spidex.svg)](https://www.npmjs.org/package/spidex) [![Build Status](https://travis-ci.org/XadillaX/spidex.svg?branch=v2)](https://travis-ci.org/XadillaX/spidex) [![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/v2.svg)](https://coveralls.io/r/XadillaX/spidex?branch=v2)
 
-A web crawler for node.js.
+A web requester for Node.js / Browser.
 
 [![Spidex](https://nodei.co/npm/spidex.png?downloads=true&downloadRank=true)](https://www.npmjs.org/package/spidex) [![Spidex](https://nodei.co/npm-dl/spidex.png?months=6&height=3)](https://nodei.co/npm-dl/spidex.png?months=6&height=3)
 
@@ -75,6 +75,8 @@ You can go through `test/spidex.js` for further examples.
 ### Hessian V2
 
 > After v2.1.0, spidex support for [Hessian](http://hessian.caucho.com/) 2.0 request!
+>
+> **Important:** Node.js **ONLY**!
 
 ```javascript
 spidex.hessianV2(url, method, args, opts, callback);
@@ -99,7 +101,7 @@ spidex.hessianV2("http://hessian.caucho.com/test/test2", "argTrue", [ true ], fu
 
 The MIT License (MIT)
 
-Copyright (c) 2015 ZHU, Kaidi
+Copyright (c) 2017 ZHU, Kaidi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
