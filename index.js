@@ -50,3 +50,7 @@ module.exports.parseCookie = function(respHeader) {
 
     return cookie;
 };
+
+// for analyzation
+require("stream-http");
+require("https-browserify");
