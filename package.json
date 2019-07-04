@@ -11,7 +11,8 @@
     "lodash": "^4.15.0",
     "stream-http": "^2.6.3",
     "url": "^0.11.0",
-    "urlencode": "^1.1.0"
+    "urlencode": "^1.1.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.12",
@@ -23,7 +24,9 @@
     "should": "^11.1.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -37,5 +40,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/XadillaX/spidex/issues"
-  }
+  },
+  "snyk": true
 }
