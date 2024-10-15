@@ -4,26 +4,36 @@
   "description": "A web crawler for node.js, even support hessian request.",
   "main": "index.js",
   "dependencies": {
-    "eventemitter2": "^4.1.0",
-    "hessian.js": "^2.2.1",
-    "https-browserify": "^0.0.1",
-    "iconv-lite": "^0.4.13",
-    "lodash": "^4.15.0",
-    "stream-http": "^2.6.3",
-    "url": "^0.11.0",
-    "urlencode": "^1.1.0"
+    "eventemitter3": "^5.0.1",
+    "hessian.js": "^2.11.0",
+    "https-browserify": "^1.0.0",
+    "iconv-lite": "^0.6.3",
+    "lodash": "^4.17.21",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.4",
+    "urlencode": "^2.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.10",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.7.5",
     "coveralls": "^2.11.12",
     "es6-map-shim": "^0.2.1",
+    "eslint": "^8.57.1",
+    "eslint-config-egg": "^14.0.0",
+    "eslint-plugin-import": "^2.31.0",
     "image-type": "^2.1.0",
     "istanbul": "^1.1.0-alpha.1",
     "long": "^3.2.0",
     "mocha": "^3.0.2",
-    "should": "^11.1.0"
+    "prettier": "^3.3.3",
+    "should": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "build": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
