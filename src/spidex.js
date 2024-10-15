@@ -1,6 +1,3 @@
-/**
- * Created by XadillaX on 14-1-17.
- */
 var isNode = false;
 try {
     isNode = (process.release.name === "node" || process.release.name === "io.js");

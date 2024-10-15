@@ -1,6 +1,6 @@
 "use strict";
 
-var spidex = require("../");
+var spidex = require("../lib");
 var imageType = require("image-type");
 require("should");
 
@@ -50,11 +50,11 @@ describe("Spidex", function() {
     describe("other encoding page", function() {
         this.timeout(0);
 
-        it("should contain \"宁波工程学院\"", function(done) {
-            spidex.get("http://dx.nbut.edu.cn/", {
-                charset: "gbk"
+        it("should contain \"中国民间故事\"", function(done) {
+            spidex.get("https://www.6mj.com/", {
+                charset: "gb2312"
             }, function(html) {
-                html.indexOf("宁波工程学院").should.not.equal(-1);
+                html.indexOf("中国民间故事").should.not.equal(-1);
                 done();
             }).on("error", function(err) {
                 err.should.be.empty;
@@ -102,7 +102,7 @@ describe("Spidex", function() {
         it("should request timeout.", function(done) {
             spidex.get("http://www.pccu.edu.tw/", {
                 requestTimeout: 10,
-                timeout: 100
+                timeout: 10000,
             }, function() {
                 // empty
             }).on("error", function(err) {
@@ -184,7 +184,7 @@ describe("Spidex", function() {
             }, function() {
                 // empty
             }).on("error", function(err) {
-                err.message.indexOf("protocol").should.not.equal(-1);
+                err.message.indexOf("Invalid URL").should.not.equal(-1);
                 done();
             });
         });

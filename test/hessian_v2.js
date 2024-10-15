@@ -10,7 +10,7 @@ require("es6-map-shim");
 var Long = require("long");
 var should = require("should");
 
-var spidex = require("../");
+var spidex = require("../lib");
 
 describe("Hessian 2.0 test", function() {
     var BASE_URL = "http://hessian.caucho.com/test/test2";
