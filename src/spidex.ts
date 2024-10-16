@@ -8,6 +8,16 @@ import * as urlencode from 'urlencode';
 import { SpidexSupportedCharset } from './SpidexSupportedCharset';
 import * as statics from './statics';
 
+/**
+ * Determine if the current environment is Node.js.
+ *
+ * This check is crucial for deciding which modules to load and how to handle certain operations. In a Node.js
+ * environment, we have access to the 'process' object and can check its release name. If this check fails (e.g., in a
+ * browser environment), we assume it's not Node.js.
+ *
+ * This distinction allows Spidex to adapt its behavior based on the runtime environment, ensuring compatibility across
+ * different JavaScript platforms.
+ */
 let isNode = false;
 try {
   isNode = (process.release.name === 'node');
@@ -36,13 +46,17 @@ const mod: {
  * @return The loaded module.
  */
 async function load<K extends keyof typeof mod>(type: K): Promise<typeof mod[K]> {
+  // Check if the module has already been loaded to avoid redundant imports.
   if (mod[type] !== undefined) {
     return mod[type];
   }
 
+  // Load the module based on the current environment (Node.js or browser).
   if (isNode) {
+    // In Node.js, use dynamic import to load native modules.
     mod[type] = import(type);
   } else {
+    // In browser environments, import specific browser-compatible alternatives.
     switch (type) {
       case 'http':
         mod[type] = import('stream-http');
@@ -51,17 +65,21 @@ async function load<K extends keyof typeof mod>(type: K): Promise<typeof mod[K]>
         mod[type] = import('https-browserify');
         break;
       case 'hessian.js':
+        // Hessian.js is not supported in browser environments.
         mod['hessian.js'] = null;
         break;
       default:
+        // Throw an error if an unknown module type is requested.
         throw new Error(`Unknown type: ${type}`);
     }
   }
 
+  // If the loaded module is a promise, wait for it to resolve. This ensures the module is fully initialized before returning.
   if (isPromise(mod[type])) {
     mod[type] = await mod[type];
   }
 
+  // Return the loaded module, which may be undefined if loading failed.
   return mod[type];
 }
 
@@ -254,6 +272,16 @@ export class Spidex extends EventEmitter {
       charset: 'utf8',
     } as InternalContext;
 
+    /**
+     * Handle the case where options are omitted and the callback is passed as the third argument.
+     *
+     * This allows for a more flexible function signature, supporting both:
+     *
+     *   - method(method, url, options, callback)
+     *   - method(method, url, callback)
+     *
+     * By doing this check, we ensure that the function can be called with or without options, improving its usability.
+     */
     if (typeof options === 'function') {
       callback = options;
       options = {};
@@ -272,6 +300,13 @@ export class Spidex extends EventEmitter {
     try {
       urlObject = new URL(url);
     } catch (e) {
+      /**
+       * Handle invalid URLs by emitting an error event on the next tick of the event loop.
+       *
+       * This asynchronous error handling ensures that the error is not thrown synchronously, which could disrupt the
+       * execution flow. Instead, it allows the caller to handle the error through the event emitter, promoting a more
+       * consistent error handling approach across the library.
+       */
       process.nextTick(() => {
         emitter.emit('error', e);
       });
@@ -282,6 +317,16 @@ export class Spidex extends EventEmitter {
     const charset = options.charset || 'utf8';
     ctx.charset = charset;
 
+    /**
+     * Process the request data based on its type and the specified charset.
+     *
+     *   - If data is a Buffer, it's treated as binary data.
+     *   - If data is an object, it's stringified and URL-encoded using the specified charset.
+     *   - Otherwise, data is assumed to be a string and used as-is.
+     *
+     * This preprocessing ensures that the request body is properly formatted regardless of the input type, providing
+     * flexibility in how users can specify request data.
+     */
     let data = options.data || '';
     if (data instanceof Buffer) {
       ctx.bodyEncode = 'binary';
@@ -299,6 +344,14 @@ export class Spidex extends EventEmitter {
       header['content-type'] = 'application/x-www-form-urlencoded';
     }
 
+    /**
+     * Determine the appropriate module to use based on the URL protocol.
+     *
+     * This allows Spidex to support both HTTP and HTTPS requests seamlessly.
+     *
+     * The dynamic loading of modules (http or https) is handled by the `load` function, which takes care of
+     * environment-specific module loading (Node.js vs browser).
+     */
     const p = (protocol === 'http:' ? load('http') : (protocol === 'https:' ? load('https') : null));
     if (!p) {
       process.nextTick(() => {
@@ -316,6 +369,12 @@ export class Spidex extends EventEmitter {
       rejectUnauthorized: false,
     };
 
+    /**
+     * Initiate the actual HTTP request using the doRequest method.
+     *
+     * This method encapsulates the complex logic of making the request, handling timeouts, and processing the response.
+     * It returns a promise, allowing for easier error handling and asynchronous flow control.
+     */
     this.doRequest(ctx, p as any, method, realOptions, options, emitter, callback).catch(err => {
       if (ctx.calledBack || ctx.error) {
         return;
@@ -489,17 +548,36 @@ export class Spidex extends EventEmitter {
     let timedOutHandler: any;
     let responseTimedOutHandler: any;
 
+    /**
+     * Determine the appropriate HTTP method to use.
+     *
+     *   - For GET requests, we use the 'get' method of the HTTP module, which doesn't require explicitly setting the
+     *     method.
+     *   - For all other request types, we use the general 'request' method and specify the HTTP method in the options.
+     */
     let call: 'request' | 'get' = 'request';
     if (method.toLowerCase() === 'get') {
       call = 'get';
       delete options.method;
     }
 
+    /**
+     * Load the appropriate HTTP module (http or https) based on the URL protocol.
+     *
+     * This asynchronous loading allows Spidex to support both HTTP and HTTPS protocols while maintaining compatibility
+     * with different JavaScript environments (Node.js and browsers).
+     */
     const mod = await requester;
     let response: import('http').IncomingMessage;
     let request: import('http').ClientRequest = mod[call](options, resp => {
       response = resp;
 
+      /**
+       * Set up a response timeout if specified in the options.
+       *
+       * This timeout ensures that the response is received within the specified time limit. If the timeout is reached,
+       * the request is aborted, and an error is emitted.
+       */
       if (rawOptions.responseTimeout) {
         responseTimedOutHandler = setTimeout(() => {
           if (allFinished) return;
@@ -534,6 +612,12 @@ export class Spidex extends EventEmitter {
         content += chunk;
       });
 
+      /**
+       * Handle the completion of the response.
+       *
+       * This event listener processes the received data, clears any active timeouts, and invokes the callback with the
+       * response content, status, and headers.
+       */
       response.on('end', () => {
         allFinished = true;
         if (responseTimedOutHandler) {
@@ -549,6 +633,13 @@ export class Spidex extends EventEmitter {
         request = undefined as any;
         response = undefined as any;
 
+        /**
+         * Process the response content based on the specified charset.
+         *
+         *   - For binary responses, convert the content to a Buffer.
+         *   - For non-UTF-8 charsets, decode the content using iconv-lite.
+         *   - For UTF-8, the content is already in the correct format.
+         */
         if (ctx.charset === 'binary') {
           content = Buffer.from(content as string, 'binary');
         } else if (ctx.charset !== 'utf8') {
@@ -562,12 +653,24 @@ export class Spidex extends EventEmitter {
       });
     });
 
+    /**
+     * Handle request errors.
+     *
+     * This error handler catches any errors that occur during the request process and emits them through the
+     * EventEmitter, allowing the caller to handle these errors appropriately.
+     */
     request.on('error', err => {
       if (timedOut || requestTimedOut || responseTimedOut || ctx.error || ctx.calledBack) return;
       ctx.error = true;
       emitter.emit('error', err);
     });
 
+    /**
+     * Set up a total timeout for the entire request-response cycle if specified in the options.
+     *
+     * This timeout ensures that the entire operation completes within the specified time limit. If the timeout is
+     * reached, the request is aborted, and an error is emitted.
+     */
     if (rawOptions.timeout) {
       timedOutHandler = setTimeout(() => {
         if (allFinished) return;
@@ -596,6 +699,12 @@ export class Spidex extends EventEmitter {
       }, rawOptions.timeout);
     }
 
+    /**
+     * Handle errors emitted by the EventEmitter.
+     *
+     * This listener ensures that any errors emitted (except timeout errors) result in the immediate termination of the
+     * request and cleanup of resources.
+     */
     emitter.on('error', (err: Error) => {
       if (err.message.indexOf('timeout') !== -1) {
         return;
@@ -626,6 +735,12 @@ export class Spidex extends EventEmitter {
       }
     });
 
+    /**
+     * Set up a request timeout if specified in the options.
+     *
+     * This timeout ensures that the request phase (before receiving a response) completes within the specified time
+     * limit. If the timeout is reached, the request is aborted, and an error is emitted.
+     */
     if (rawOptions.requestTimeout) {
       request.setTimeout(rawOptions.requestTimeout, () => {
         if (response) return;
@@ -642,6 +757,12 @@ export class Spidex extends EventEmitter {
       });
     }
 
+    /**
+     * Write the request body and end the request for non-GET methods.
+     *
+     * For methods other than GET, this step sends the request body (if any) and signals the end of the request. The
+     * body is written using the appropriate encoding (binary or default) based on the context.
+     */
     if (method.toLowerCase() !== 'get') {
       if (!ctx.bodyEncode) {
         request.write(ctx.data);
