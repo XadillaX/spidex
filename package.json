@@ -2,7 +2,10 @@
   "name": "spidex",
   "version": "2.2.1",
   "description": "A web crawler for node.js, even support hessian request.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "eventemitter3": "^5.0.1",
     "hessian.js": "^2.11.0",
@@ -33,7 +36,8 @@
   },
   "scripts": {
     "test": "make test",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "generate-supported-charsets": "node tools/generate_supported_charsets.js"
   },
   "repository": {
     "type": "git",

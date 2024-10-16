@@ -21,15 +21,37 @@ export {
 
 export { SpidexSupportedCharset } from './SpidexSupportedCharset';
 
+/**
+ * Retrieves the default user agent string.
+ *
+ * @return {string} The default user agent string.
+ */
 export function getDefaultUserAgent() {
   return statics.getDefaultUserAgent();
 }
 
+/**
+ * Sets the default user agent string.
+ *
+ * @param {string} userAgent - The user agent string to set as default.
+ */
 export function setDefaultUserAgent(userAgent: string) {
   statics.setDefaultUserAgent(userAgent);
 }
 
+/**
+ * Parses the cookies from the response headers.
+ *
+ * @deprecated Use {@link parseCookies} instead.
+ */
 export const parseCookie = parseCookies;
+
+/**
+ * Parses the cookies from the response headers.
+ *
+ * @param respHeaders - The response headers containing cookies.
+ * @return The concatenated string of cookies.
+ */
 export function parseCookies(respHeaders: import('http').IncomingHttpHeaders) {
   const cookies = respHeaders['set-cookie'] || [];
   if (!cookies || !Array.isArray(cookies) || cookies.length === 0) {
