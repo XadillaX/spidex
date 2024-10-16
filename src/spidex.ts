@@ -30,6 +30,11 @@ const mod: {
   'hessian.js': undefined,
 };
 
+/**
+ * Load a module.
+ * @param type The type of module to load.
+ * @return The loaded module.
+ */
 async function load<K extends keyof typeof mod>(type: K): Promise<typeof mod[K]> {
   if (mod[type] !== undefined) {
     return mod[type];
@@ -62,23 +67,64 @@ async function load<K extends keyof typeof mod>(type: K): Promise<typeof mod[K]>
 
 function _noCallback() {}
 
+/**
+ * The basic HTTP method.
+ */
 export type SpidexBasicHTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+/**
+ * The URL decoded object.
+ */
 export type SpidexURLDecodedObject = Record<string, string>;
 
+/**
+ * The request options without charset.
+ */
 export interface SpidexRequestOptionsWithoutCharset {
+  /**
+   * The request body data.
+   */
   data?: Buffer | string | SpidexURLDecodedObject;
+
+  /**
+   * The request header.
+   */
   header?: import('http').OutgoingHttpHeaders;
 
+  /**
+   * The total timeout value.
+   */
   timeout?: number;
+
+  /**
+   * The response timeout value.
+   */
   responseTimeout?: number;
+
+  /**
+   * The request timeout value.
+   */
   requestTimeout?: number;
 }
 
+/**
+ * The request options.
+ */
 export interface SpidexRequestOptions<C extends SpidexSupportedCharset> extends SpidexRequestOptionsWithoutCharset {
+  /**
+   * The charset of the request body.
+   */
   charset?: C;
 }
 
+/**
+ * The request callback content type.
+ */
 export type SpidexRequestCallbackContentType<C extends SpidexSupportedCharset> = C extends 'binary' ? Buffer : string;
+
+/**
+ * The request callback.
+ */
 export type SpidexRequestCallback<C extends SpidexSupportedCharset> =
   (
     content: SpidexRequestCallbackContentType<C>,
@@ -103,8 +149,16 @@ interface InternalContext {
   data?: Buffer | string;
 }
 
-
+/**
+ * Spidex - a web requester for Node.js and browsers.
+ * @class Spidex
+ */
 export class Spidex extends EventEmitter {
+  /**
+   * Combine the header with the default user agent.
+   * @param headers The header to be combined.
+   * @return The combined header.
+   */
   _combineHeader<T extends(import('http').OutgoingHttpHeaders | string)>(headers: T) {
     const newHeaders: CombinedHeader<T> = {
       'user-agent': statics.getDefaultUserAgent(),
@@ -123,6 +177,14 @@ export class Spidex extends EventEmitter {
     return newHeaders;
   }
 
+  /**
+   * The request method with basic HTTP method.
+   * @param method The basic HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   method<C extends SpidexSupportedCharset = 'utf8'>(
     method: SpidexBasicHTTPMethod,
     url: string,
@@ -131,13 +193,30 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
-  method<C extends SpidexSupportedCharset = 'utf8'>(
+
+  /**
+   * The request method with basic HTTP method and without options.
+   * @param method The HTTP method.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
+  method(
     method: SpidexBasicHTTPMethod,
     url: string,
-    callback?: SpidexRequestCallback<C>,
+    callback?: SpidexRequestCallback<'utf8'>,
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with other HTTP method.
+   * @param method The HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   method<C extends SpidexSupportedCharset = 'utf8'>(
     method: string,
     url: string,
@@ -146,6 +225,14 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with other HTTP method and without options.
+   * @param method The HTTP method.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   method<C extends SpidexSupportedCharset = 'utf8'>(
     method: string,
     url: string,
@@ -153,6 +240,7 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
   method<C extends SpidexSupportedCharset = 'utf8'>(
     method: string,
     url: string,
@@ -238,6 +326,13 @@ export class Spidex extends EventEmitter {
     return emitter;
   }
 
+  /**
+   * The request method with DELETE HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   delete<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C>,
@@ -245,12 +340,20 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with DELETE HTTP method and without options.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   delete<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     callback?: SpidexRequestCallback<C>,
   ): EventEmitter<{
     error: [Error];
   }>;
+
   delete<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C> | SpidexRequestCallback<C>,
@@ -259,6 +362,13 @@ export class Spidex extends EventEmitter {
     return this.method('DELETE', url, options as any, callback as any);
   }
 
+  /**
+   * The request method with GET HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   get<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C>,
@@ -266,12 +376,20 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with GET HTTP method and without options.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   get<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     callback?: SpidexRequestCallback<C>,
   ): EventEmitter<{
     error: [Error];
   }>;
+
   get<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C> | SpidexRequestCallback<C>,
@@ -280,6 +398,13 @@ export class Spidex extends EventEmitter {
     return this.method('GET', url, options as any, callback as any);
   }
 
+  /**
+   * The request method with POST HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   post<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C>,
@@ -287,12 +412,20 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with POST HTTP method and without options.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   post<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     callback?: SpidexRequestCallback<C>,
   ): EventEmitter<{
     error: [Error];
   }>;
+
   post<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C> | SpidexRequestCallback<C>,
@@ -301,6 +434,13 @@ export class Spidex extends EventEmitter {
     return this.method('POST', url, options as any, callback as any);
   }
 
+  /**
+   * The request method with PUT HTTP method.
+   * @param url The URL.
+   * @param [options] The request options.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   put<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C>,
@@ -308,12 +448,20 @@ export class Spidex extends EventEmitter {
   ): EventEmitter<{
     error: [Error];
   }>;
+
+  /**
+   * The request method with PUT HTTP method and without options.
+   * @param url The URL.
+   * @param [callback] The request callback.
+   * @return The response event emitter.
+   */
   put<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     callback?: SpidexRequestCallback<C>,
   ): EventEmitter<{
     error: [Error];
   }>;
+
   put<C extends SpidexSupportedCharset = 'utf8'>(
     url: string,
     options?: SpidexRequestOptions<C> | SpidexRequestCallback<C>,
@@ -504,8 +652,25 @@ export class Spidex extends EventEmitter {
     }
   }
 
+  /**
+   * Call a Hessian v2 service.
+   * @param url The URL of Hessian v2 service.
+   * @param method The method name.
+   * @param args The arguments.
+   * @param options The request options.
+   * @param [callback] The callback function.
+   */
   hessianV2<R = any>(url: string, method: string, args: any[], options: SpidexRequestOptionsWithoutCharset, callback?: (err: Error | undefined, result?: R) => void): void;
+
+  /**
+   * Call a Hessian v2 service without options.
+   * @param url The URL of Hessian v2 service.
+   * @param method The method name.
+   * @param args The arguments.
+   * @param [callback] The request callback.
+   */
   hessianV2<R = any>(url: string, method: string, args: any[], callback?: (err: Error | undefined, result?: R) => void): void;
+
   hessianV2<R = any>(
     url: string,
     method: string,
