@@ -1,5 +1,3 @@
-import { isPromise } from 'util/types';
-
 import * as _ from 'lodash';
 import { EventEmitter } from 'eventemitter3';
 import * as iconv from 'iconv-lite';
@@ -74,8 +72,9 @@ async function load<K extends keyof typeof mod>(type: K): Promise<typeof mod[K]>
     }
   }
 
-  // If the loaded module is a promise, wait for it to resolve. This ensures the module is fully initialized before returning.
-  if (isPromise(mod[type])) {
+  // If the loaded module is a promise, wait for it to resolve. This ensures the module is fully initialized before
+  // returning.
+  if (mod[type] && typeof (mod[type] as any).then === 'function') {
     mod[type] = await mod[type];
   }
 
@@ -781,7 +780,13 @@ export class Spidex extends EventEmitter {
    * @param options The request options.
    * @param [callback] The callback function.
    */
-  hessianV2<R = any>(url: string, method: string, args: any[], options: SpidexRequestOptionsWithoutCharset, callback?: (err: Error | undefined, result?: R) => void): void;
+  hessianV2<R = any>(
+    url: string,
+    method: string,
+    args: any[],
+    options: SpidexRequestOptionsWithoutCharset,
+    callback?: (err: Error | undefined, result?: R) => void
+  ): void;
 
   /**
    * Call a Hessian v2 service without options.
@@ -790,7 +795,12 @@ export class Spidex extends EventEmitter {
    * @param args The arguments.
    * @param [callback] The request callback.
    */
-  hessianV2<R = any>(url: string, method: string, args: any[], callback?: (err: Error | undefined, result?: R) => void): void;
+  hessianV2<R = any>(
+    url: string,
+    method: string,
+    args: any[],
+    callback?: (err: Error | undefined, result?: R) => void
+  ): void;
 
   hessianV2<R = any>(
     url: string,

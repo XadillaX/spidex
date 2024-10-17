@@ -10,7 +10,8 @@ const e = {
   method: spidex.method.bind(spidex) as typeof spidex.method,
   hessianV2: spidex.hessianV2.bind(spidex) as typeof spidex.hessianV2,
 
-  _combineHeader: spidex._combineHeader.bind(spidex) as typeof spidex._combineHeader,
+  _combineHeader:
+    spidex._combineHeader.bind(spidex) as typeof spidex._combineHeader,
 };
 
 export = e;
