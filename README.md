@@ -1,121 +1,145 @@
 # Spidex
 
-[![Spidex](http://img.shields.io/npm/v/spidex.svg)](https://www.npmjs.org/package/spidex) [![Spidex](http://img.shields.io/npm/dm/spidex.svg)](https://www.npmjs.org/package/spidex) [![Build Status](https://travis-ci.org/XadillaX/spidex.svg?branch=v2)](https://travis-ci.org/XadillaX/spidex) [![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/v2.svg)](https://coveralls.io/r/XadillaX/spidex?branch=v2)
+![npm version](https://img.shields.io/npm/v/spidex.svg)
+![npm downloads](https://img.shields.io/npm/dm/spidex.svg)
+![Build Status](https://github.com/XadillaX/spidex/workflows/Node.js%20CI/badge.svg)
+![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/master.svg)
 
-A web requester for Node.js / Browser.
+Spidex is a versatile web requester for Node.js and browsers, designed to simplify HTTP requests with a clean and
+intuitive API.
 
-[![Spidex](https://nodei.co/npm/spidex.png?downloads=true&downloadRank=true)](https://www.npmjs.org/package/spidex) [![Spidex](https://nodei.co/npm-dl/spidex.png?months=6&height=3)](https://nodei.co/npm-dl/spidex.png?months=6&height=3)
+## Features
+
+- Supports both Node.js and browser environments.
+- Handles GET, POST, PUT, DELETE and other methods.
+- Customizable request options including headers, timeouts, and charsets.
+- Built-in support for various character encodings.
+- Hessian v2 protocol support (Node.js only).
+- Event-based error handling.
 
 ## Installation
 
-```sh
-$ npm install spidex --save
+Install Spidex using npm:
+
+```bash
+npm install spidex --save
 ```
 
 ## Usage
 
-You just need to get the handler:
+### Basic Request
 
-```javascript
-var spidex = require("spidex");
-```
+```js
+const spidex = require('spidex');
 
-> After v2.0.0, spidex uses new APIs.
-
-And the functions are:
-
-```javascript
-spidex.get(url, [opts], [callback]).on("error", errorCallback);
-spidex.post(url, [opts], [callback]).on("error", errorCallback);
-spidex.put(url, [opts], [callback]).on("error", errorCallback);
-spidex.delete(url, [opts], [callback]).on("error", errorCallback);
-```
-
-`opts` can be an `Object` that has options follow:
-
-+ `data`: the body data. it may be a querystring or a JSON object.
-+ `header`: customized request header.
-+ `charset`: "utf8", "gbk", "big5" or other encodings `iconv-lite` supported. what's more, it supports "binary" now.
-+ `timeout`: set the totally timeout millionsecond.
-+ `responseTimeout`: set the response timeout millionsecond.
-+ `requestTimeout`: set the request timeout millionsecond.
-
-For an example:
-
-```javascript
-spidex.post("http://foo", {
-    data: { user: "foo", password: "bar" },
-    header: { "content-type": "application/x-www-form-urlencoded" },
-    charset: "utf8",
-    timeout: 5000,
-    responseTimeout: 3000,
-    requestTimeout: 3000
-}, function(content, statusCode, responseHeaders) {
-    console.log(content, statusCode, responseHeaders);
-}).on("error", function(err) {
-    console.log(err);
+spidex.get('https://api.example.com/data', (content, statusCode, responseHeaders) => {
+  console.log('Response:', content);
+  console.log('Status:', statusCode);
+  console.log('Headers:', responseHeaders);
+}).on('error', err => {
+  console.error('Error:', err);
 });
 ```
 
-There's a helper function:
+### Request with Options
 
-```javascript
-spidex.parseCookie(responseHeaders);
-```
-
-And two `user-agent` functions:
-
-```javascript
-spidex.setDefaultUserAgent(userAgent);
-spidex.getDefaultUserAgent();
-```
-
-You can go through `test/spidex.js` for further examples.
-
-### Hessian V2
-
-> After v2.1.0, spidex support for [Hessian](http://hessian.caucho.com/) 2.0 request!
->
-> **Important:** Node.js **ONLY**!
-
-```javascript
-spidex.hessianV2(url, method, args, opts, callback);
-```
-
-> `opts` is the same as other functions in spidex, but it will ignore parameters 
-> `data` and `header["content-length"]`.
->
-> `args` is an array of arguments that will fill in the hessian service.
->
-> `method` is the method name of that hessian service.
-
-For an example, a possible request may like this:
-
-```javascript
-spidex.hessianV2("http://hessian.caucho.com/test/test2", "argTrue", [ true ], function(err, result) {
-    console.log(err, result);
+```js
+spidex.post('https://api.example.com/users', {
+  data: JSON.stringify({ username: 'john_doe', email: 'john@example.com' }),
+  header: { 'Content-Type': 'application/json' },
+  charset: 'utf8',
+  timeout: 5000
+}, (content, statusCode, responseHeaders) => {
+  console.log('User created:', content);
+}).on('error', (err) => {
+  console.error('Error creating user:', err);
 });
+```
+
+### Supported Basic HTTP Methods
+
+Spidex supports the following HTTP methods:
+
+- `spidex.get(url, [options], [callback])`
+- `spidex.post(url, [options], [callback])`
+- `spidex.put(url, [options], [callback])`
+- `spidex.delete(url, [options], [callback])`
+
+Each method returns an EventEmitter that emits an 'error' event if an error occurs.
+
+### Supported Other HTTP Methods
+
+- `spidex.method(url, method, [options], [callback])`
+
+### Request Options
+
+The `options` object can include the following properties:
+
+- `data`: Request body (string, object, or Buffer)
+- `header`: Custom request headers
+- `charset`: Character encoding (e.g., 'utf8', 'gbk', 'binary', etc.)
+- `timeout`: Total request timeout in milliseconds
+- `responseTimeout`: Response timeout in milliseconds
+- `requestTimeout`: Request timeout in milliseconds
+
+### Parsing Cookies
+
+Spidex provides a utility function to parse cookies from response headers:
+
+```js
+const cookies = spidex.parseCookies(responseHeaders);
+console.log('Parsed cookies:', cookies);
+```
+
+### User Agent Management
+
+You can get or set the default User-Agent string:
+
+```js
+// Get the current User-Agent
+const currentUA = spidex.getDefaultUserAgent();
+
+// Set a custom User-Agent
+spidex.setDefaultUserAgent('MyApp/1.0');
+```
+
+### Hessian v2 Support (Node.js only)
+
+Spidex supports Hessian v2 protocol for Node.js environments:
+
+```js
+spidex.hessianV2('http://hessian.example.com/api', 'methodName', [arg1, arg2], (err, result) => {
+  if (err) {
+    console.error('Hessian request failed:', err);
+    return;
+  }
+  console.log('Hessian result:', result);
+});
+```
+
+## TypeScript Support
+
+Spidex includes TypeScript definitions. You can import and use it in TypeScript projects:
+
+```ts
+import * as spidex from 'spidex';
+
+spidex.get('https://api.example.com/data', (content, statusCode, responseHeaders) => {
+  console.log('Typed response:', content);
+});
+```
+
+## Error Handling
+
+All Spidex methods return an EventEmitter that emits an 'error' event. You can handle errors by listening to this event:
+
+```js
+spidex.get('https://api.example.com/data')
+  .on('error', (err) => {
+    console.error('Request failed:', err);
+  });
 ```
 
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2017 ZHU, Kaidi
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Spidex is released under the MIT License. See the [LICENSE](LICENSE) file for details.
