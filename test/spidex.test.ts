@@ -107,12 +107,12 @@ describe('Spidex', () => {
 
       spidex.get(url, {
         charset: 'binary',
-        responseTimeout: 10,
+        responseTimeout: 1,
         timeout: 1000,
       }, () => {
         should.fail(0, 1, 'This callback should not be called');
       }).on('error', err => {
-        err.message.should.equal('Spidex response timeout in 10ms.');
+        err.message.should.equal('Spidex response timeout in 1ms.');
         done();
       });
     });
@@ -125,11 +125,11 @@ describe('Spidex', () => {
         charset: 'binary',
         responseTimeout: 1000,
         requestTimeout: 1000,
-        timeout: 20,
+        timeout: 1,
       }, () => {
         should.fail(0, 1, 'This callback should not be called');
       }).on('error', err => {
-        err.message.should.equal('Spidex timeout in 20ms.');
+        err.message.should.equal('Spidex timeout in 1ms.');
         done();
       });
     });
