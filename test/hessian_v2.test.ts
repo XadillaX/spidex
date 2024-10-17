@@ -172,7 +172,8 @@ describe('Hessian 2.0 test', function() {
         ).join('').substr(0, length);
       } else {
         str = Array.from({ length: 64 * 16 }, (_, i) =>
-          `${Math.floor(i / 100)}${Math.floor(i / 10) % 10}${i % 10} 56789012345678901234567890123456789012345678901234567890123\n`,
+          `${Math.floor(i / 100)}${Math.floor(i / 10) % 10}${i % 10} ` +
+          '56789012345678901234567890123456789012345678901234567890123\n',
         ).join('').substr(0, length);
       }
 
