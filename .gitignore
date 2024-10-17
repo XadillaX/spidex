@@ -20,3 +20,5 @@ node_modules
 *.swo
 
 lib
+.nyc_output
+coverage

@@ -1,4 +1,3 @@
-MOCHA = ./node_modules/.bin/_mocha
 ISTANBUL = ./node_modules/.bin/istanbul
 COVERALLS = ./node_modules/coveralls/bin/coveralls.js
 
@@ -9,7 +8,7 @@ install:
 	@npm install -d --registry=http://registry.npm.taobao.org/
 
 test: install
-	@$(MOCHA)
+	@npm test
 
 test-coveralls: install
 	@$(ISTANBUL) cover $(MOCHA) \
