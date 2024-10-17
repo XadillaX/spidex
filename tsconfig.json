@@ -1,13 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "./lib",
-    "target": "es2017",
+    "target": "es6",
     "module": "commonjs",
-    "lib": [
-      "es2015",
-      "es2016",
-      "es2017"
-    ],
     "allowJs": true,
     "declaration": true,
     "skipDefaultLibCheck": true,
@@ -23,7 +18,8 @@
     "moduleResolution": "node",
     "types": [
       "mocha",
-      "node"
+      "node",
+      "should"
     ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -33,6 +29,11 @@
   },
   "exclude": [
     "lib",
-    "tools"
+    "tools",
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
   ]
 }
