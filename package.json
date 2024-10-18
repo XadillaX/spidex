@@ -1,6 +1,6 @@
 {
   "name": "spidex",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A web crawler for node.js, even support hessian request.",
   "main": "lib/index.js",
   "files": [

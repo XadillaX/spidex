@@ -1,9 +1,9 @@
 # Spidex
 
-![npm version](https://img.shields.io/npm/v/spidex.svg)
-![npm downloads](https://img.shields.io/npm/dm/spidex.svg)
-![Build Status](https://github.com/XadillaX/spidex/workflows/Node.js%20CI/badge.svg)
-![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/master.svg)
+[![npm version](https://img.shields.io/npm/v/spidex.svg)](https://npmjs.org/spidex)
+[![npm downloads](https://img.shields.io/npm/dm/spidex.svg)](https://npmjs.org/spidex)
+[![Build Status](https://github.com/XadillaX/spidex/workflows/Node.js%20CI/badge.svg)](https://github.com/XadillaX/spidex/actions)
+[![Coverage Status](https://img.shields.io/coveralls/XadillaX/spidex/master.svg)](https://coveralls.io/github/XadillaX/spidex?branch=master)
 
 Spidex is a versatile web requester for Node.js and browsers, designed to simplify HTTP requests with a clean and
 intuitive API.
